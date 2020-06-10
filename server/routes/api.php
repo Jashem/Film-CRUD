@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +14,11 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('/login', 'Api\UserController@login');
 Route::post('/register', 'Api\UserController@register');
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::get('/films/images/{fileName}', 'Api\FilmController@getImage');
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/films', 'Api\FilmController@getFilms');
+    Route::get('/films/{name}', 'Api\FilmController@getFilmByName');
+    Route::post('/films', 'Api\FilmController@store');
 });
