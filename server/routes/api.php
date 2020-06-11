@@ -15,10 +15,15 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', 'Api\UserController@login');
 Route::post('/register', 'Api\UserController@register');
 
-Route::get('/films/images/{fileName}', 'Api\FilmController@getImage');
+Route::prefix('/films')->group(function () {
+    Route::get('/images/{fileName}', 'Api\FilmController@getImage');
+    Route::get('/', 'Api\FilmController@getFilms');
+    Route::get('/name/{name}', 'Api\FilmController@getFilmByName');
+});
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/films', 'Api\FilmController@getFilms');
-    Route::get('/films/{name}', 'Api\FilmController@getFilmByName');
-    Route::post('/films', 'Api\FilmController@store');
+    Route::prefix('/films')->group(function () {
+        Route::post('/', 'Api\FilmController@store');
+        Route::post('/id/{id}/comments', 'Api\CommentController@store')->where('id', '[0-9]+');;
+    });
 });

@@ -15,4 +15,9 @@ class Film extends Model
     {
         $this->attributes['date'] = Carbon::parse($value);
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment')->orderBy('updated_at', 'desc');
+    }
 }
