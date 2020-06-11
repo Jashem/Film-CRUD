@@ -30,6 +30,8 @@ class FilmController extends Controller
     public function getFilmByName($name)
     {
         $film = Film::where('name', "=", $name)->first();
+        $comments = $film->comments;
+        $film['comments'] = $comments;
         return response()->json(["success" => $film], 200);
     }
 

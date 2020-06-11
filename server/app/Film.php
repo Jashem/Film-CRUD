@@ -18,6 +18,6 @@ class Film extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Comment')->orderBy('updated_at', 'desc');
+        return $this->hasMany('App\Comment', "film_id")->orderBy('updated_at', 'desc');
     }
 }
